@@ -9,6 +9,10 @@ namespace FinalProject.DAL.Repositories
 	public class CategoryRepository
 	{
 		private readonly HttpClient client;
+		/// <summary>
+		/// A comment about what this does
+		/// </summary>
+		/// <param name="client"></param>
 		public CategoryRepository(HttpClient client)
 		{
 			this.client = client;

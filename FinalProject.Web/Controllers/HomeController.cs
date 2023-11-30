@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web;
-
+using FinalProject.DAL.Repositories;
 using FinalProject.Web.ViewModels;
 using FinalProject.Web.Services;
 using System.Diagnostics;
@@ -21,6 +21,7 @@ namespace FinalProject.Web.Controllers
 		private readonly ILogger<HomeController> logger;
 		private readonly IMailService mailService;
 		private readonly IConfiguration config;
+		private readonly AdventureWorksRepository repo;
 
 		/// <summary>
 		/// controller for home page
@@ -30,11 +31,13 @@ namespace FinalProject.Web.Controllers
 		/// <param name="logger">Logger to log errors and such</param>
 		public HomeController(IMailService mailService, 
 			IConfiguration config, 
-			ILogger<HomeController> logger)
+			ILogger<HomeController> logger,
+			AdventureWorksRepository repo)
 		{
 			this.mailService = mailService;
 			this.logger = logger;
 			this.config = config;
+			this.repo = repo;
 		}
 
 		/// <summary>
@@ -62,6 +65,12 @@ namespace FinalProject.Web.Controllers
 		{
 			return View();
 		}
+		public IActionResult Categories()
+		{
+			var model = repo.GetAllCategories();
+			return View(model);
+		}
+
 
 		/// <summary>
 		/// Error page to show to the user
