@@ -48,8 +48,10 @@ namespace FinalProject.Web.Controllers
 		[HttpGet]
 		public IActionResult Index()
 		{
-			
-			return View();
+			var model = repo.GetAllCategories();
+			ViewBag.descriptions = new List<string>() { "description 1", "description2", "description3", "description4", "description5", "description6", "description7" };
+			ViewBag.images = new List<string>() { "BlackPep.jpeg", "CFennel.jpeg", "Chile-Threads.jpeg", "CRoll.jpeg", "Himalay.jpeg", "SeaSalt.jpeg" };
+			return View(model);
 		}
 
 		public IActionResult About()
@@ -70,11 +72,6 @@ namespace FinalProject.Web.Controllers
 		public IActionResult Privacy()
 		{
 			return View();
-		}
-		public IActionResult Categories()
-		{
-			var model = repo.GetAllCategories();
-			return View(model);
 		}
 
 
