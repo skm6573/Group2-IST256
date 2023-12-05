@@ -1,55 +1,55 @@
-using FinalProject.DAL.Models;
+﻿using FinalProject.DAL.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace FinalProject.DAL.Repositories
 {
-    /// <summary>
-    /// Needs Microsoft.extensions.Http
-    /// </summary>
-    public class AdventureWorksRepository
-    {
-        private readonly IHttpClientFactory clientFactory;
-        ILogger<AdventureWorksRepository> logger;
-        AdventureWorksSettings settings;
+	/// <summary>
+	/// Needs Microsoft.extensions.Http
+	/// </summary>
+	public class AdventureWorksRepository
+	{
+		private readonly IHttpClientFactory clientFactory;
+		ILogger<AdventureWorksRepository> logger;
+		AdventureWorksSettings settings;
 
-        public AdventureWorksRepository(IOptions<AdventureWorksSettings> settings, IHttpClientFactory clientFactory, ILogger<AdventureWorksRepository> logger)
-        {
-            this.clientFactory = clientFactory;
-            this.logger = logger;
-            this.settings = settings.Value;
-        }
+		public AdventureWorksRepository(IOptions<AdventureWorksSettings> settings, IHttpClientFactory clientFactory, ILogger<AdventureWorksRepository> logger)
+		{
+			this.clientFactory = clientFactory;
+			this.logger = logger;
+			this.settings = settings.Value;
+		}
 
-        public IEnumerable<Category> GetAllCategories()
-        {
-            string url = settings.categoryUri;
-            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(url))
-            {
-                Headers =
-                {
-                    { "Accept", "application/json" },
-                    { "User-Agent", "Group-99" }
-                }
-            };
+		public IEnumerable<Category> GetAllCategories()
+		{
+			string url = settings.categoryUrl;
+			var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, new Uri(url))
+			{
+				Headers =
+				{
+					{ "Accept", "application/json" },
+					{ "User-Agent", "Group-99" }
+				}
+			};
 
-            var httpclient = clientFactory.CreateClient();
+			var httpclient = clientFactory.CreateClient();
 
-            var httpResponseMessage = httpclient.SendAsync(httpRequestMessage).Result;
-            
-            httpResponseMessage.EnsureSuccessStatusCode();
+			var httpResponseMessage = httpclient.SendAsync(httpRequestMessage).Result;
 
-            logger.LogDebug("Got categories");
+			httpResponseMessage.EnsureSuccessStatusCode();
 
-            var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
+			logger.LogDebug("Got categories");
 
-            IEnumerable<Category>  data = JsonConvert.DeserializeObject<IEnumerable<Category>>(result) ?? new List<Category>();
+			var result = httpResponseMessage.Content.ReadAsStringAsync().Result;
 
-            return data;
+			IEnumerable<Category> data = JsonConvert.DeserializeObject<IEnumerable<Category>>(result) ?? new List<Category>();
 
-        }
+			return data;
 
- 
+		}
 
-    }
+	}
+
 }

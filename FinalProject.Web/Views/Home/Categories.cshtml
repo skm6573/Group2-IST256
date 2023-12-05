@@ -1,12 +1,13 @@
-@model IEnumerable<Category>;
-
+﻿@model IEnumerable<Category>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Details";
 }
+
 <div>
-    @foreach(var item in Model)
-    {
-        @item.CategoryName
-    }
+	@foreach(var item in Model)
+	{
+	<div>@item.CategoryName</div>
+	}
 </div>
+
 

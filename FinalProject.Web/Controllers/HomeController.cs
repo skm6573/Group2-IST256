@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.Linq;
+using FinalProject.DAL.Repositories;
 
 namespace FinalProject.Web.Controllers
 {
@@ -56,6 +57,11 @@ namespace FinalProject.Web.Controllers
 			return View();
 		}
 
+		public IActionResult Categories()
+		{
+			var model = repo.GetAllCategories();
+			return View(model);
+		}
 
 		/// <summary>
 		/// Privacy page end point
